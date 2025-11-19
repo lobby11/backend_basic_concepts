@@ -1,8 +1,14 @@
 // database connectvitgiy
 const mongoose = require('mongoose');
+require('dotenv').config();
+
 // defining mongodb connection url
-const mongoURL= 'mongodb://localhost:27017/mydb'
-// setup mongodb cpomn
+// const mongoURL= 'mongodb://localhost:27017/mydb'
+// -- u can switch with local host as we have debvvelop multiplkew data tpo collect or by going to mongodb compass 
+// const mongoURL = "mongodb+srv://haipadhte:ro8stfpsn6YS8w7r@cluster0.13wnh9f.mongodb.net/"
+
+const mongoURL = process.env.MONGO_ATLAS
+// setup mongodb cpomn'
 // require parametewr to esrtablsih connection
 
 mongoose.connect(mongoURL,{
