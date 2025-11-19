@@ -57,5 +57,43 @@ router.get('/:tasteType',async(req,res)=>{
   
 })
 
+router.put("/:id", async(req,res)=>{
+    try {
+        // extract id from url prameter
+        const menuid=req.params.id 
+        // updated data for person
+        const updateMenuData = req.body;
+        const response = await MenuItem.findByIdAndUpdate(menuid,updateMenuData,{
+            new:true, //return updated doc
+            runValidators:true //run mongoose validaition
+        })
+        if(!response){
+            return res.status(404).json({error:" Not Found IN menu"})
+        }
+       console.log("data updated")
+       res.status(200).json(response)
+    } catch (err) {
+        console.log(err)
+        res.status(500).json({error:"Internal SERVER error"})
+    }
+})
+
+router.delete("/:id", async(req,res)=>{
+    try {
+        // extract id from url prameter
+        const menuid=req.params.id 
+        // updated data for person
+        const updateMenuData = req.body;
+        const response = await MenuItem.findByIdAndDelete(menuid)
+        if(!response){
+            return res.status(404).json({error:"Menu  Not Found to delete"})
+        }
+       console.log("Menu data  deleted succesfully")
+       res.status(200).json({message:"Menu delted succesfully "})
+    } catch (err) {
+        console.log(err)
+        res.status(500).json({error:"Internal SERVER error"})
+    }
+})
 
 module.exports=router;
