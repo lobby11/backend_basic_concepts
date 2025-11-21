@@ -69,7 +69,7 @@ router.put("/:id", async(req,res)=>{
         })
         if(!response){
             return res.status(404).json({error:" Not Found IN menu"})
-        }
+        } 
        console.log("data updated")
        res.status(200).json(response)
     } catch (err) {

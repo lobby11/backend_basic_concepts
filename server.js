@@ -5,6 +5,14 @@ const db = require('./db')
 require('dotenv').config();
 const bodyParser = require('body-parser');
 const PORT=process.env.PORT || 3000
+
+// middleware function
+const logrequest = (req,res,next) => {
+    console.log(`${new Date().toLocaleString()} Request made to : ${req.originalUrl}`)
+     next() 
+    //move on next phase - agre tum next htao middleware lgane ke bad bhi request jatyegi timing aYEGA BUT RESPONSE NHI AYEGA LOAFDING 
+}
+
 app.use(bodyParser.json()); //store in req.body
 
 // ADD THIS TO DEBUG
@@ -15,6 +23,12 @@ const Person = require('./models/Person');
 const MenuItem = require('./models/MenuItem')
 // const { error } = require('winston');
 
+// m-1  ki tumn sb me sath  me lgao
+app.use(logrequest)
+// USE THIS  MIDDLEWARE EVERYWHERE IN EXPRESS
+// m-2 jb koiu / ko hit krega localhost ke a sath to ye print krao
+// app.get('/', logrequest,function (req, res) {
+
 app.get('/', function (req, res) {
 res.send('Welcome to my hotel ... How i can help you ?, we have list of menus')
 })
@@ -23,7 +37,11 @@ res.send('Welcome to my hotel ... How i can help you ?, we have list of menus')
 const menuRoutes = require('./routes/menuRoutes')
 const personRoutes = require('./routes/personRoutes')
 app.use('/menu',menuRoutes)
+
+// m-3 
+// app.use('/person',logrequest,personRoutes)
 app.use('/person',personRoutes)
+
 app.listen(PORT,() => 
 {
     console.log("listening on port 3000");
