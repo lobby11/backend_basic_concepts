@@ -2,6 +2,10 @@
 const express = require('express')
 const app = express() ;
 const db = require('./db')
+const passport = require('./auth')
+// // username and passport strategy
+// const LocalStrategy = require('passport-local').Strategy
+// const Person = require('./models/Person')
 require('dotenv').config();
 const bodyParser = require('body-parser');
 const PORT=process.env.PORT || 3000
@@ -19,8 +23,8 @@ app.use(bodyParser.json()); //store in req.body
 console.log('Environment variables loaded:');
 console.log('PORT:', process.env.PORT);
 console.log('MONGO_ATLAS:', process.env.MONGO_ATLAS ? 'EXISTS' : 'NOT FOUND');
-const Person = require('./models/Person');
-const MenuItem = require('./models/MenuItem')
+// const Person = require('./models/Person');
+// const MenuItem = require('./models/MenuItem')
 // const { error } = require('winston');
 
 // m-1  ki tumn sb me sath  me lgao
@@ -29,6 +33,8 @@ app.use(logrequest)
 // m-2 jb koiu / ko hit krega localhost ke a sath to ye print krao
 // app.get('/', logrequest,function (req, res) {
 
+app.use(passport.initialize())
+const localAuthMiddleware = passport.authenticate('local',{session:false})
 app.get('/', function (req, res) {
 res.send('Welcome to my hotel ... How i can help you ?, we have list of menus')
 })
@@ -40,7 +46,7 @@ app.use('/menu',menuRoutes)
 
 // m-3 
 // app.use('/person',logrequest,personRoutes)
-app.use('/person',personRoutes)
+app.use('/person',localAuthMiddleware,personRoutes)
 
 app.listen(PORT,() => 
 {
