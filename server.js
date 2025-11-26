@@ -10,14 +10,14 @@ require('dotenv').config();
 const bodyParser = require('body-parser');
 const PORT=process.env.PORT || 3000
 
+app.use(bodyParser.json()); //store in req.body
 // middleware function
 const logrequest = (req,res,next) => {
     console.log(`${new Date().toLocaleString()} Request made to : ${req.originalUrl}`)
      next() 
     //move on next phase - agre tum next htao middleware lgane ke bad bhi request jatyegi timing aYEGA BUT RESPONSE NHI AYEGA LOAFDING 
-}
 
-app.use(bodyParser.json()); //store in req.body
+}
 
 // ADD THIS TO DEBUG
 console.log('Environment variables loaded:');
@@ -46,10 +46,10 @@ app.use('/menu',menuRoutes)
 
 // m-3 
 // app.use('/person',logrequest,personRoutes)
-app.use('/person',localAuthMiddleware,personRoutes)
+app.use('/person',personRoutes)
 
 app.listen(PORT,() => 
 {
     console.log("listening on port 3000");
 }
-)
+) 
